@@ -63,7 +63,7 @@ object CourseMetricsJob extends optional.Application with IJob with ReportGenera
     uploadReport(renamedDir)
     saveReportES(reportDF)
     JobLogger.end("CourseMetrics Job completed successfully!", "SUCCESS", Option(Map("config" -> config, "model" -> name)))
-
+    spark.stop()
   }
 
   def loadData(spark: SparkSession, settings: Map[String, String]): DataFrame = {
