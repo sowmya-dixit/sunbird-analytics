@@ -28,9 +28,11 @@ trait BaseReportsJob {
   def getReportingFrameworkContext()(implicit fc: Option[FrameworkContext]): FrameworkContext = {
     fc match {
       case Some(value) => {
+        println("FC was not empty")
         value
       }
       case None => {
+        println("FC was empty. So creating new FC")
         new FrameworkContext();
       }
     }

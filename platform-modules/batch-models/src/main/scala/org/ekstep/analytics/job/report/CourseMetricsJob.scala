@@ -57,7 +57,9 @@ object CourseMetricsJob extends optional.Application with IJob with ReportGenera
       .set("spark.cassandra.input.consistency.level", readConsistencyLevel)
 
     val spark = SparkSession.builder.config(sparkConf).getOrCreate()
+    println("Started preparing dataframes")
     val reportDF = prepareReport(spark, loadData)
+    reportDF.show(5)
     saveReport(reportDF, tempDir)
     renameReport(tempDir, renamedDir)
     uploadReport(renamedDir)
@@ -328,6 +330,7 @@ object CourseMetricsJob extends optional.Application with IJob with ReportGenera
 
     val perBatchCount = reportDF.groupBy("batchid").count().collect().map(_.toSeq)
     val noOfRecords = reportDF.count()
+    println("CourseMetricsJob: records stats before cloud upload: " + noOfRecords)  
     JobLogger.log(s"CourseMetricsJob: records stats before cloud upload: { perBatchCount: ${JSONUtils.serialize(perBatchCount)}, totalNoOfRecords: $noOfRecords } ", None, INFO)
   }
 
