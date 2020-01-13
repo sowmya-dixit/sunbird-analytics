@@ -330,7 +330,7 @@ object CourseMetricsJob extends optional.Application with IJob with ReportGenera
 
     val perBatchCount = reportDF.groupBy("batchid").count().collect().map(_.toSeq)
     val noOfRecords = reportDF.count()
-    println("CourseMetricsJob: records stats before cloud upload: " + noOfRecords)  
+    println("CourseMetricsJob: records stats before cloud upload: " + noOfRecords)
     JobLogger.log(s"CourseMetricsJob: records stats before cloud upload: { perBatchCount: ${JSONUtils.serialize(perBatchCount)}, totalNoOfRecords: $noOfRecords } ", None, INFO)
   }
 
@@ -340,7 +340,7 @@ object CourseMetricsJob extends optional.Application with IJob with ReportGenera
     val objectKey = AppConf.getConfig("course.metrics.cloud.objectKey")
     val storageService = getReportStorageService();
     storageService.upload(container, sourcePath, objectKey, isDirectory = Option(true))
-    storageService.closeContext()
+//    storageService.closeContext()
   }
 
   private def recursiveListFiles(file: File, ext: String): Array[File] = {

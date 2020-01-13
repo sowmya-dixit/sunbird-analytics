@@ -339,7 +339,7 @@ object AssessmentMetricsJob extends optional.Application with IJob with BaseRepo
         }
       })
     })
-    storageService.closeContext()
+//    storageService.closeContext()
     rollOverIndex(getIndexName, aliasName)
   }
 
